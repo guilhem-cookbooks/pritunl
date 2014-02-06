@@ -18,11 +18,14 @@ Vagrant.configure("2") do |config|
   # doesn't already exist on the user's system.
   config.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
 
+  config.vm.network "forwarded_port", guest: 9700, host: 9700
+
   config.berkshelf.enabled = true
 
   config.vm.provision :chef_solo do |chef|
     chef.json = {}
 
     chef.add_recipe "pritunl"
+    chef.log_level = :debug
   end
 end

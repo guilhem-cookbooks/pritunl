@@ -40,5 +40,5 @@ def create_org
 end
 
 def org_site
-  pritunl_site['/organization']
+  pritunl_site["/organization"]
 end

@@ -19,5 +19,5 @@ template "Pritunl configuration" do
   path "/etc/pritunl.conf"
   source "pritunl.conf.erb"
   variables :conf => conf
-  notifies :restart, "service[pritunl]"
+  notifies :restart, "service[pritunl]", :immediately
 end.run_action_now
