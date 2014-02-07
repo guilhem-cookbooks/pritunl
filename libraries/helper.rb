@@ -26,6 +26,58 @@ module Pritunl
       ret = { "Auth-Token" => @token }
       Chef::Log.debug "auth = #{ret}"
       return ret
-    end 
+    end
+
+    # Organization stuff
+
+    def organization(name)
+      JSON.parse(organizations_site.get).find { |org| org['name'] == name } || {}
+    end
+
+    def organizations_site
+      pritunl_site["/organization"]
+    end
+
+    # User stuff
+
+    def user(name, org)
+      JSON.parse(users_site(org).get).find { |u| u['name'] == name } || {}
+    end
+
+    def users_site(org)
+      org_id = organization(org)['id']
+      pritunl_site["/user/#{org_id}"]
+    end
+
+    # Server stuff
+    def server(name)
+      JSON.parse(servers_site.get).find { |u| u['name'] == name } || {}
+    end
+
+    def servers_site
+      pritunl_site["/server"]
+    end
+
+    def server_org(server, org)
+      org_id = organization(org)['id']
+      JSON.parse(server_org_site(server).get).find { |u| u['name'] == org } || {}
+    end
+
+    def server_site(server)
+      server_id = server(server)['id']
+      pritunl_site["/server/#{server_id}"]
+    end
+
+    def server_org_site(server)
+      server_id = server(server)['id']
+      pritunl_site["/server/#{server_id}/organization"]
+    end
+
+    # key
+    def user_key(name, org)
+      user_id = user(name, org)['id']
+      org_id = user(name, org)['organization']
+      pritunl_site["/key/#{org_id}/#{user_id}"]
+    end
   end
 end

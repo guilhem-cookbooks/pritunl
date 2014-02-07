@@ -13,7 +13,7 @@ action :create do
     Chef::Log.info "#{ @new_resource } already exists - nothing to do."
   else
     converge_by("Create #{ @new_resource }") do
-      create_org
+      create_user
     end
   end
 end
@@ -21,16 +21,17 @@ end
 
 def load_current_resource
   include_recipe "pritunl::_common"
-  @current_resource = Chef::Resource::PritunlOrganization.new(@new_resource.name)
+  @current_resource = Chef::Resource::PritunlUser.new(@new_resource.name)
   @current_resource.name(@new_resource.name)
+  @current_resource.organization(@new_resource.organization)
 
-  @current_resource.exists = true unless organization(current_resource.name).empty?
+  @current_resource.exists = true unless user(current_resource.name, current_resource.organization).empty?
 end
 
-def create_org
+def create_user
   ruby_block "Create #{@new_resource}" do
     block do
-      organizations_site.post "#{{ 'name' => current_resource.name }.to_json}"
+      users_site(current_resource.organization).post "#{{ 'name' => current_resource.name }.to_json}"
     end
   end
 end

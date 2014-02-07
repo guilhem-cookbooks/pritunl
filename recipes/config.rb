@@ -20,4 +20,4 @@ template "Pritunl configuration" do
   source "pritunl.conf.erb"
   variables :conf => conf
   notifies :restart, "service[pritunl]", :immediately
-end.run_action_now
+end
