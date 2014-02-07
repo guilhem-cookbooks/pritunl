@@ -73,6 +73,17 @@ module Pritunl
       pritunl_site["/server/#{server_id}/organization"]
     end
 
+    def add_server_org_site(server, org)
+      server_id = server(server)['id']
+      org_id = organization(org)['id']
+      pritunl_site["/server/#{server_id}/organization/#{org_id}"]
+    end
+
+    def server_operation_site(server, action)
+      server_id = server(server)['id']
+      pritunl_site["/server/#{server_id}/#{action}"]
+    end
+
     # key
     def user_key(username, org)
       user_id = user(username, org)['id']
