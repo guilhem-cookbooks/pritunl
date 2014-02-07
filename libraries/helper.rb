@@ -74,9 +74,9 @@ module Pritunl
     end
 
     # key
-    def user_key(name, org)
-      user_id = user(name, org)['id']
-      org_id = user(name, org)['organization']
+    def user_key(username, org)
+      user_id = user(username, org)['id']
+      org_id = user(username, org)['organization']
       pritunl_site["/key/#{org_id}/#{user_id}"]
     end
   end
