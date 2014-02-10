@@ -1,6 +1,6 @@
 ---
 driver: vagrant
-provisioner: chef_solo
+provisioner: chef_zero
 
 platforms:
   - name: ubuntu-12.04

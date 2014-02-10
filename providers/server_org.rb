@@ -7,7 +7,6 @@ def whyrun_supported?
   true
 end
 
-
 action :attach do
   if current_resource.exists
     Chef::Log.info "#{ @new_resource } already exists - nothing to do."
@@ -17,7 +16,6 @@ action :attach do
     end
   end
 end
-
 
 def load_current_resource
   include_recipe "pritunl::_common"

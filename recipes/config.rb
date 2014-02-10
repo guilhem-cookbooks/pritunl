@@ -11,9 +11,8 @@ conf = {
   "bind_addr" => node['pritunl']['bind'],
   "password" => Digest::SHA512.hexdigest(node['pritunl']['password'] + salt),
   "debug" => "true",
-  "db_path" => ::File.join(node['pritunl']['data_path'], "pritunl.db"),
+  "db_path" => ::File.join(node['pritunl']['data_path'], "pritunl.db")
 }
-
 
 template "Pritunl configuration" do
   path "/etc/pritunl.conf"

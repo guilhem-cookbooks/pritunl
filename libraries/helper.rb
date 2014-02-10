@@ -3,19 +3,18 @@ require 'json'
 
 module Pritunl
   module Helper
-
-    @@token 
+    @@token
 
     def pritunl_site
       define_token unless defined? @@token
-        
+
       RestClient::Resource.new(node['pritunl']['url'], :headers => { :content_type => :json, :accept => :json, "Auth-Token" => @@token })
     end
 
     def define_token
       @@token = JSON.parse(RestClient.post "#{node['pritunl']['url']}/auth/token", {
         'username' => node['pritunl']['user'],
-        "password" => node['pritunl']['password']}.to_json,
+        "password" => node['pritunl']['password'] }.to_json,
         :content_type => :json,
         :accept => :json)['auth_token']
     end
@@ -25,7 +24,7 @@ module Pritunl
       @token ||= JSON.parse(site['/auth/token'].post "#{{ 'username' => user, "password" => password }.to_json}")['auth_token']
       ret = { "Auth-Token" => @token }
       Chef::Log.debug "auth = #{ret}"
-      return ret
+      ret
     end
 
     # Organization stuff
@@ -59,7 +58,6 @@ module Pritunl
     end
 
     def server_org(server, org)
-      org_id = organization(org)['id']
       JSON.parse(server_org_site(server).get).find { |u| u['name'] == org } || {}
     end
 

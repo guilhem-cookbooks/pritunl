@@ -16,7 +16,6 @@ action :create do
   end
 end
 
-
 def load_current_resource
   include_recipe "pritunl::_common"
 end

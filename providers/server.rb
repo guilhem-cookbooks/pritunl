@@ -9,7 +9,6 @@ def whyrun_supported?
   true
 end
 
-
 action :create do
   if current_resource.exists
     Chef::Log.info "#{ @new_resource } already exists - nothing to do."
@@ -19,7 +18,7 @@ action :create do
     end
   end
 
-  pritunl_server_org new_resource.name do
+  pritunl_server_org "Create organization for #{new_resource.name}" do
     organization new_resource.organization
     only_if { new_resource.organization }
   end
@@ -61,7 +60,6 @@ action :restart do
   end
 end
 
-
 def load_current_resource
   include_recipe "pritunl::_common"
   @current_resource = Chef::Resource::PritunlServer.new(@new_resource.name)
@@ -83,9 +81,9 @@ def create_server
         'public_address' => new_resource.public_address,
         'otp_auth' => new_resource.otp_auth,
         'lzo_compression' => new_resource.lzo_compression,
-        'debug' => new_resource.debug,
+        'debug' => new_resource.debug
       }.delete_if { |k, v| v.nil? }
-        
+
       servers_site.post "#{options.to_json}"
     end
   end
