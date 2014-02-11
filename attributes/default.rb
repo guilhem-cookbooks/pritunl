@@ -7,5 +7,5 @@ default['pritunl']['port'] = "9700"
 default['pritunl']['data_path'] = "/var/lib/pritunl"
 
 default['pritunl']['user'] = "admin"
-default['pritunl']['password'] = 'test'
+default['pritunl']['password'] = 'admin'
 default['pritunl']['url'] = "http://localhost:9700"
